@@ -29,17 +29,17 @@ template<class T>
 class matrix_armadillo : public matrix_base<T>, public arma::Mat<T>
 {
     public:
-        matrix_armadillo (const size_t rows, const size_t columns)
+        matrix_armadillo (size_t rows, size_t columns)
             : arma::Mat<T>::Mat (rows, columns)
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return arma::Mat<T>::operator () (row, column);
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return arma::Mat<T>::operator () (row, column);
         }

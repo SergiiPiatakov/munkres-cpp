@@ -33,21 +33,21 @@ class Matrix : public matrix_base<T>
 {
     public:
         Matrix () = default;
-        Matrix (const size_t, const size_t);
+        Matrix (size_t, size_t);
         Matrix (const std::initializer_list<std::initializer_list<T>> &);
         Matrix (const Matrix<T> &);
         Matrix<T> & operator= (const Matrix<T> &);
         ~Matrix () override;
         // All operations modify the matrix in-place.
-        void resize (const size_t, const size_t, const T default_value = T (0) ) override;
-        const T & operator () (const size_t x, const size_t y) const override
+        void resize (size_t, size_t, T default_value = T (0) ) override;
+        const T & operator () (size_t x, size_t y) const override
         {
             assert (x < m_rows);
             assert (y < m_columns);
             assert (m_matrix != nullptr);
             return m_matrix [x][y];
         };
-        T & operator () (const size_t x, const size_t y) override
+        T & operator () (size_t x, size_t y) override
         {
             assert (x < m_rows);
             assert (y < m_columns);
@@ -108,7 +108,7 @@ Matrix<T>::Matrix (const Matrix<T> & other)
 
 
 template<class T>
-Matrix<T>::Matrix (const size_t rows, const size_t columns)
+Matrix<T>::Matrix (size_t rows, size_t columns)
     : Matrix<T> ()
 {
     resize (rows, columns);
@@ -150,7 +150,7 @@ Matrix<T>::~Matrix ()
 
 
 template<class T>
-void Matrix<T>::resize (const size_t rows, const size_t columns, const T default_value)
+void Matrix<T>::resize (size_t rows, size_t columns, T default_value)
 {
     // Save array pointer.
     T ** new_matrix;

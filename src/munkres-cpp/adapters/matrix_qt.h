@@ -25,20 +25,20 @@
 namespace munkres_cpp
 {
 
-template<class T, const int N, const int M>
+template<class T, int N, int M>
 class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
 {
     public:
-        matrix_qt (const size_t, const size_t)
+        matrix_qt (size_t, size_t)
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return QGenericMatrix<N, M, T>::operator () (row, column);
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return QGenericMatrix<N, M, T>::operator () (row, column);
         }

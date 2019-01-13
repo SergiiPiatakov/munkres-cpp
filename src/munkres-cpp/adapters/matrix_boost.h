@@ -29,17 +29,17 @@ template<class T>
 class matrix_boost : public matrix_base<T>, public boost::numeric::ublas::matrix<T>
 {
     public:
-        matrix_boost (const size_t rows, const size_t columns)
+        matrix_boost (size_t rows, size_t columns)
             : boost::numeric::ublas::matrix<T>::matrix (rows, columns)
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return boost::numeric::ublas::matrix<T>::operator () (row, column);
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return boost::numeric::ublas::matrix<T>::operator () (row, column);
         }
@@ -54,7 +54,7 @@ class matrix_boost : public matrix_base<T>, public boost::numeric::ublas::matrix
             return boost::numeric::ublas::matrix<T>::size1 ();
         }
 
-        void resize (const size_t rows, const size_t columns, const T value = T (0) ) override
+        void resize (size_t rows, size_t columns, T value = T (0) ) override
         {
             if (rows != this->rows () || columns != this->columns () ) {
                 const auto rows_old = this->rows ();

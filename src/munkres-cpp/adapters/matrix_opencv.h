@@ -29,17 +29,17 @@ template<class T>
 class matrix_opencv : public matrix_base<T>, cv::Mat_<T>
 {
     public:
-        matrix_opencv (const size_t rows, const size_t columns)
+        matrix_opencv (size_t rows, size_t columns)
             : cv::Mat_<T>::Mat_ (rows, columns, cv::DataType<T>::type)
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return cv::Mat_<T>::operator () (row, column);
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return cv::Mat_<T>::operator () (row, column);
         }

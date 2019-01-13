@@ -29,17 +29,17 @@ template<class T>
 class matrix_eigen : public matrix_base<T>, public Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
 {
     public:
-        matrix_eigen (const size_t rows, const size_t columns)
+        matrix_eigen (size_t rows, size_t columns)
             : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (rows, columns)
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column);
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column);
         }
@@ -54,7 +54,7 @@ class matrix_eigen : public matrix_base<T>, public Eigen::Matrix<T, Eigen::Dynam
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::rows ();
         }
 
-        void resize (const size_t rows, const size_t columns, const T value = T (0) ) override
+        void resize (size_t rows, size_t columns, T value = T (0) ) override
         {
             if (rows != this->rows () || columns != this->columns () ) {
                 const auto rows_old = this->rows ();

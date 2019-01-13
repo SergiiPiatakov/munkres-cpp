@@ -36,14 +36,14 @@ struct matrix_base
     using value_type = T;
 
     // Interface.
-    virtual const value_type & operator () (const size_t, const size_t) const = 0;
-    virtual value_type & operator () (const size_t, const size_t) = 0;
+    virtual const value_type & operator () (size_t, size_t) const = 0;
+    virtual value_type & operator () (size_t, size_t) = 0;
     virtual size_t columns () const = 0;
     virtual size_t rows () const = 0;
 
     // Default implementation.
     virtual ~matrix_base () = default;
-    virtual void resize (const size_t rows, const size_t columns, const value_type = value_type (0) )
+    virtual void resize (size_t rows, size_t columns, value_type = value_type (0) )
     {
         if (rows != this->rows () || columns != this->columns () )
             throw std::logic_error ("Called function with inappropriate default implementation.");
@@ -62,7 +62,7 @@ struct matrix_base
     template <typename M = matrix_base<value_type> >
     struct iterator : public std::iterator<std::input_iterator_tag, typename M::value_type>
     {
-        iterator (M & m, const size_t r, const size_t c) : m {m}, r {r}, c {c} {}
+        iterator (M & m, size_t r, size_t c) : m {m}, r {r}, c {c} {}
         bool operator == (const iterator & that) {return this->r == that.r && this->c == that.c;}
         bool operator != (const iterator & that) {return ! operator == (that);}
         typename M::value_type & operator * () const {return m (r, c);}

@@ -34,7 +34,7 @@ class matrix_std_2d_vector : public matrix_base<T>
         {
         }
 
-        matrix_std_2d_vector (const size_t rows, const size_t columns)
+        matrix_std_2d_vector (size_t rows, size_t columns)
             : data_storage {}
             , data_handler {data_storage}
         {
@@ -54,12 +54,12 @@ class matrix_std_2d_vector : public matrix_base<T>
             return * this;
         }
 
-        const T & operator () (const size_t row, const size_t column) const override
+        const T & operator () (size_t row, size_t column) const override
         {
             return data_handler [row][column];
         };
 
-        T & operator () (const size_t row, const size_t column) override
+        T & operator () (size_t row, size_t column) override
         {
             return data_handler [row][column];
         }
@@ -78,7 +78,7 @@ class matrix_std_2d_vector : public matrix_base<T>
             return data_handler.size ();
         }
 
-        void resize (const size_t rows, const size_t columns, const T value = T (0) ) override
+        void resize (size_t rows, size_t columns, T value = T (0) ) override
         {
             data_handler.resize (rows);
             for (size_t i = 0; i < rows; ++i) {
