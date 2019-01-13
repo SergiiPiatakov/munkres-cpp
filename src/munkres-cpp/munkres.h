@@ -281,6 +281,7 @@ Munkres<T>::Munkres (matrix_base<T> & matrix)
         switch (step) {
         case 1:
             step = step1 ();    // step is always 2
+            // Fallthrough.
         case 2:
             step = step2 ();    // step is always either 0 or 3
             break;
