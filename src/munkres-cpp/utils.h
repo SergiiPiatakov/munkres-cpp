@@ -33,7 +33,7 @@ is_data_invalid (const T & value)
 }
 
 template<typename T>
-bool is_data_valid (/*const*/ matrix_base<T> & matrix)
+bool is_data_valid (const matrix_base<T> & matrix)
 {
     return !std::any_of (matrix.begin (), matrix.end (), [](const T & v){return is_data_invalid<T> (v);});
 }
