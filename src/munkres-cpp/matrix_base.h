@@ -59,14 +59,14 @@ struct matrix_base
     is_zero (size_t row, size_t column) const {return FP_ZERO == std::fpclassify (operator () (row, column) );}
 
     // Allow to use standard algorithms.
-    // Normal (non-const) version.
-    template <typename M = matrix_base<value_type> >
+    template <typename M>
     struct iterator : public std::iterator<std::input_iterator_tag, typename M::value_type>
     {
         iterator (M & m, size_t r, size_t c) : m {m}, r {r}, c {c} {}
+        typename std::conditional<std::is_const<M>::value, const value_type, value_type>::type &
+             operator * () const {return m (r, c);}
         bool operator == (const iterator & that) {return this->r == that.r && this->c == that.c;}
         bool operator != (const iterator & that) {return ! operator == (that);}
-        typename M::value_type & operator * () const {return m (r, c);}
         iterator & operator ++ ()
         {
             r += ++c / m.columns ();
@@ -77,29 +77,11 @@ struct matrix_base
         M & m;
         size_t r, c;
     };
-    iterator<> begin () {return iterator<> {* this, 0, 0};}
-    iterator<> end   () {return iterator<> {* this, rows (), 0};}
 
-    // Const version.
-    template <typename M = const matrix_base<value_type> >
-    struct const_iterator : public std::iterator<std::input_iterator_tag, typename M::value_type>
-    {
-        const_iterator (M & m, size_t r, size_t c) : m {m}, r {r}, c {c} {}
-        bool operator == (const const_iterator & that) {return this->r == that.r && this->c == that.c;}
-        bool operator != (const const_iterator & that) {return ! operator == (that);}
-        const typename M::value_type & operator * () const {return m (r, c);}
-        const_iterator & operator ++ ()
-        {
-            r += ++c / m.columns ();
-            c  =   c % m.columns ();
-            return * this;
-        }
-
-        M & m;
-        size_t r, c;
-    };
-    const_iterator<> begin () const {return const_iterator<> {* this, 0, 0};}
-    const_iterator<> end   () const {return const_iterator<> {* this, rows (), 0};}
+    iterator<matrix_base> begin () {return iterator<matrix_base> {* this, 0, 0};}
+    iterator<matrix_base> end   () {return iterator<matrix_base> {* this, rows (), 0};}
+    iterator<const matrix_base> begin () const {return iterator<const matrix_base> {* this, 0, 0};}
+    iterator<const matrix_base> end   () const {return iterator<const matrix_base> {* this, rows (), 0};}
 };
 
 }// namespace munkres_cpp
