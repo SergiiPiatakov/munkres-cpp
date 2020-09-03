@@ -19,10 +19,17 @@ replace_infinites (matrix_base<T> & matrix)
 
 
 template<typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type
+typename std::enable_if<std::is_integral<T>::value && std::is_unsigned<T>::value, bool>::type
+is_data_invalid (const T &)
+{
+    return false;
+}
+
+template<typename T>
+typename std::enable_if<std::is_integral<T>::value && std::is_signed<T>::value, bool>::type
 is_data_invalid (const T & value)
 {
-    return std::numeric_limits<T>::is_signed && value < T (0);
+    return std::signbit (value);
 }
 
 template<typename T>
@@ -32,8 +39,16 @@ is_data_invalid (const T & value)
     return value < T (0) || !(std::fpclassify (value) == FP_ZERO || std::fpclassify (value) == FP_NORMAL);
 }
 
+
+
 template<typename T>
-bool is_data_valid (const matrix_base<T> & matrix)
+typename std::enable_if<std::is_unsigned<T>::value, bool>::type is_data_valid (const matrix_base<T> &)
+{
+    return true;
+}
+
+template<typename T>
+typename std::enable_if<std::is_signed<T>::value, bool>::type is_data_valid (const matrix_base<T> & matrix)
 {
     return !std::any_of (matrix.begin (), matrix.end (), [](const T & v){return is_data_invalid<T> (v);});
 }
