@@ -34,6 +34,17 @@ class matrix_eigen : public matrix_base<T>, public Eigen::Matrix<T, Eigen::Dynam
         {
         }
 
+        matrix_eigen (const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> & other)
+            : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (other)
+        {
+        }
+
+        matrix_eigen<T> & operator= (const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> & other)
+        {
+            Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator= (other);
+            return *this;
+        }
+
         const T & operator () (size_t row, size_t column) const override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column);

@@ -34,6 +34,17 @@ class matrix_armadillo : public matrix_base<T>, public arma::Mat<T>
         {
         }
 
+        matrix_armadillo (const arma::Mat<T> & other)
+            : arma::Mat<T>::Mat (other)
+        {
+        }
+
+        matrix_armadillo<T> & operator= (const arma::Mat<T> & other)
+        {
+            arma::Mat<T>::operator= (other);
+            return *this;
+        }
+
         const T & operator () (size_t row, size_t column) const override
         {
             return arma::Mat<T>::operator () (row, column);

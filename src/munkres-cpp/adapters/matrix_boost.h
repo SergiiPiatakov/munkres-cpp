@@ -34,6 +34,17 @@ class matrix_boost : public matrix_base<T>, public boost::numeric::ublas::matrix
         {
         }
 
+        matrix_boost (const boost::numeric::ublas::matrix<T> & other)
+            : boost::numeric::ublas::matrix<T>::matrix (other)
+        {
+        }
+
+        matrix_boost<T> & operator= (const boost::numeric::ublas::matrix<T> & other)
+        {
+            boost::numeric::ublas::matrix<T>::operator= (other);
+            return *this;
+        }
+
         const T & operator () (size_t row, size_t column) const override
         {
             return boost::numeric::ublas::matrix<T>::operator () (row, column);
