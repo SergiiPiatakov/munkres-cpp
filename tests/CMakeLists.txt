@@ -42,6 +42,7 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/munkres_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/matrix_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/utils_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters_test.cpp
 )
 
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})

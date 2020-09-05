@@ -26,11 +26,22 @@ namespace munkres_cpp
 {
 
 template<class T, int N, int M>
-class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
+class matrix_qt : public matrix_base<T>, public QGenericMatrix<N, M, T>
 {
     public:
         matrix_qt (size_t, size_t)
         {
+        }
+
+        matrix_qt (const QGenericMatrix<N, M, T> & other)
+            : QGenericMatrix<N, M, T>::QGenericMatrix (other)
+        {
+        }
+
+        matrix_qt<T, N, M> & operator= (const QGenericMatrix<N, M, T> & other)
+        {
+            QGenericMatrix<N, M, T>::operator= (other);
+            return *this;
         }
 
         const T & operator () (size_t row, size_t column) const override
