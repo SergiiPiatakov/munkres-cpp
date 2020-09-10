@@ -29,6 +29,9 @@ template<class T>
 class matrix_armadillo : public matrix_base<T>, public arma::Mat<T>
 {
     public:
+        using matrix_base<T>::begin;
+        using matrix_base<T>::end;
+
         matrix_armadillo (size_t rows, size_t columns)
             : arma::Mat<T>::Mat (rows, columns)
         {
