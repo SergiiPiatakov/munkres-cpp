@@ -37,14 +37,25 @@ class matrix_opencv : public matrix_base<T>, public cv::Mat_<T>
         {
         }
 
-        matrix_opencv (const cv::Mat_<T> & other)
-            : cv::Mat_<T>::Mat_ (other)
+        matrix_opencv (const matrix_opencv<T> & other)
+                        : cv::Mat_<T>::Mat_ (other.clone () )
         {
+        }
+
+        matrix_opencv (const cv::Mat_<T> & other)
+            : cv::Mat_<T>::Mat_ (other.clone () )
+        {
+        }
+
+        matrix_opencv<T> & operator= (const matrix_opencv<T> & other)
+        {
+            cv::Mat_<T>::operator= (other.clone () );
+            return *this;
         }
 
         matrix_opencv<T> & operator= (const cv::Mat_<T> & other)
         {
-            cv::Mat_<T>::operator= (other);
+            cv::Mat_<T>::operator= (other.clone () );
             return *this;
         }
 
