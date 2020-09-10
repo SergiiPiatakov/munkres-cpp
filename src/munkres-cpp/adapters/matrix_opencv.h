@@ -29,6 +29,9 @@ template<class T>
 class matrix_opencv : public matrix_base<T>, public cv::Mat_<T>
 {
     public:
+        using matrix_base<T>::begin;
+        using matrix_base<T>::end;
+
         matrix_opencv (size_t rows, size_t columns)
             : cv::Mat_<T>::Mat_ (rows, columns, cv::DataType<T>::type)
         {
