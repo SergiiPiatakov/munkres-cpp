@@ -1,7 +1,6 @@
 // This file contains compile time tests.
-//
-// The functions below are not supposed to be called in runtime.
 
+#include <gtest/gtest.h>
 #include "adapters_test.h"
 
 
@@ -26,11 +25,25 @@ Adapter deal_with_adapter (const Adapter & in)
     return out;
 }
 
+template <typename Adapter>
+bool is_equal (const Adapter & x, const Adapter & y)
+{
+    return std::distance (x.begin (), x.end () )
+        == std::distance (y.begin (), y.end () )
+        && std::equal (x.begin (), x.end (), y.begin () );
+}
+
 template <typename Natural, typename Adapter>
 void test_substitution (Natural n, Adapter a)
 {
+    Adapter x = a;
+    std::fill (a.begin (), a.end (), 1);
+    std::fill (x.begin (), x.end (), 2);
+
+    ASSERT_FALSE (is_equal (a, x) );
+
     n = deal_with_natural<Natural> (n);
-    n = deal_with_natural<Natural> (a);
+    n = deal_with_natural<Natural> (x);
     a = deal_with_natural<Natural> (n);
     a = deal_with_natural<Natural> (a);
 
@@ -38,54 +51,36 @@ void test_substitution (Natural n, Adapter a)
     a = deal_with_adapter<Adapter> (n);
     n = deal_with_adapter<Adapter> (a);
     n = deal_with_adapter<Adapter> (n);
+
+    ASSERT_TRUE (is_equal (a, x) );
 }
 
 
 
-#ifdef MUNKRES_CPP_ARMADILLO
-void test_matrix_armadillo ()
+TEST (AdaptersTest, Substitution)
 {
+    #ifdef MUNKRES_CPP_ARMADILLO
     test_substitution (arma::Mat<value_type> (rows, cols)
-                    , munkres_cpp::matrix_armadillo<value_type> (rows, cols) );
-}
-#endif
+                     , munkres_cpp::matrix_armadillo<value_type> (rows, cols) );
+    #endif
 
-
-
-#ifdef MUNKRES_CPP_BOOST
-void test_matrix_boost ()
-{
+    #ifdef MUNKRES_CPP_BOOST
     test_substitution (boost::numeric::ublas::matrix<value_type> (rows, cols)
                      , munkres_cpp::matrix_boost<value_type> (rows, cols) );
-}
-#endif
+    #endif
 
-
-
-#ifdef MUNKRES_CPP_EIGEN3
-void test_matrix_eigen ()
-{
+    #ifdef MUNKRES_CPP_EIGEN3
     test_substitution (Eigen::Matrix<value_type, Eigen::Dynamic, Eigen::Dynamic> (rows, cols)
                      , munkres_cpp::matrix_eigen<value_type> (rows, cols) );
-}
-#endif
+    #endif
 
-
-
-#ifdef MUNKRES_CPP_OPENCV
-void test_matrix_opencv ()
-{
+    #ifdef MUNKRES_CPP_OPENCV
     test_substitution (cv::Mat_<value_type> (rows, cols)
                      , munkres_cpp::matrix_opencv<value_type> (rows, cols) );
-}
-#endif
+    #endif
 
-
-
-#ifdef MUNKRES_CPP_QT
-void test_matrix_qt ()
-{
+    #ifdef MUNKRES_CPP_QT
     test_substitution (QGenericMatrix<rows, cols, value_type> ()
                      , munkres_cpp::matrix_qt<value_type, rows, cols> (rows, cols) );
+    #endif
 }
-#endif
